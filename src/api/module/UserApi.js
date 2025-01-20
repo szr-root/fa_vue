@@ -6,4 +6,7 @@ export default {
 	loginApi(data){
 		return request.post('/api/users/login/',data)
 	},
+	getUserListApi(){
+		return request.get('/api/users/users/')
+	}
 }

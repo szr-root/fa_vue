@@ -5,7 +5,9 @@ export default {
 	//获取项目列表
 	getProListApi(){
 		return request.get('/api/testPro/projects')
+	},
+	createProApi(data){
+		return request.post('/api/testPro/projects',data)
 	}
-	
 	
 }
