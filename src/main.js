@@ -1,8 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import piniaPluginPersist from 'pinia-plugin-persist'
+import pinia from '@/stores/index'
 
 import App from './App.vue'
 import router from './router'
@@ -16,7 +15,11 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 //icon组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
+//引入全局css
+import './style/global.scss'
 
+// 导入暗黑模式主题
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 const app = createApp(App)
 
@@ -31,13 +34,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 
-// 创建一个pinia
-const upinia = createPinia()
-
-// 将持久化的插件注册到pinia中
-upinia.use(piniaPluginPersist)
-
-app.use(upinia)
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')

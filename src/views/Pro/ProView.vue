@@ -6,7 +6,7 @@
 				<el-button icon="CirclePlus" size="small" @click='showDlg'>添加项目</el-button>
 			</div>
 			<div class="pro_list">			
-				<el-carousel :interval="4000" type="card" height="400px" motion-blur>
+				<el-carousel type="card" height="400px" motion-blur  loop:false>
 					<el-carousel-item v-for="(item,index) in proList" :key="index">
 						<div class="pro">
 							<div @click='enterProject(item)'>
@@ -57,7 +57,27 @@
 			</span>
 		</template>
 	</el-dialog>
-
+	
+	<!-- 修改项目的弹框 -->
+	<el-dialog v-model="isUpdateDlgShow" title="编辑项目">
+		<el-form :model="fromUpdateData" label-width="80">
+			<el-form-item label="项目名称">
+				<el-input v-model="fromUpdateData.name" autocomplete="off" />
+			</el-form-item>
+			<el-form-item label="负责人">
+				<el-select v-model="fromUpdateData.leader" placeholder="选择负责人" >
+									<el-option v-for="item in users" :key="item.id" :value="item.nickname" :label="item.nickname"></el-option>
+				</el-select>
+			</el-form-item>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button @click="isUpdateDlgShow = false">取消</el-button>
+				<el-button type="primary" @click="updatePro">确认</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	
 	
 
 </div>
@@ -67,8 +87,13 @@
 
 <script setup>
 	import {ref,reactive} from 'vue'
-	import {ElNotification} from 'element-plus'
+	import {ElNotification,ElMessage,ElMessageBox} from 'element-plus'
 	import http  from '@/api/index'
+	import {ProjectStore} from '@/stores/module/ProStore'
+	import { useRouter } from 'vue-router'
+	
+
+	const router = useRouter()
  
 	let proList = ref([])
 	async function getProList(){
@@ -116,6 +141,76 @@
 			getProList()
 		}
 	}
+	// ProView.vue
+// ===========实现项目修改的功能===================
+	let isUpdateDlgShow = ref(false)
+	let fromUpdateData = ref({
+		name: "",
+		leader: ""
+	})
+	// 点击编辑按钮时调用的方法
+	function clickEdit(pro) {
+		getUserList()
+		isUpdateDlgShow.value = true
+		fromUpdateData.value = { ...pro }
+		// console.log("edit::",pro,{ ...pro })
+	}
+	// 发送请求修改项目信息
+	async function updatePro() {
+		let pro_id = fromUpdateData.value.id
+		const response = await http.pro.editProApi(pro_id, fromUpdateData.value)
+		if (response.status === 200) {
+			ElNotification({
+				title: '项目修改成功',
+				type: 'success',
+				duration: 3000
+			})
+			// 关闭窗口
+			isUpdateDlgShow.value = false
+			// 刷新页面上的数据
+			getProList()
+		}
+	}
+// ==============实现项目删除的功能=====================
+function clickDelete(pro_id) {
+	// 调用后端的接口进行删除
+	ElMessageBox.confirm(
+			'删除操作不可恢复，请确认是否要删除该项目?',
+			'提示', {
+				confirmButtonText: '确认',
+				cancelButtonText: '取消',
+				type: 'warning',
+			}
+		)
+		.then(async () => {
+			// 调用接口进行删除
+			const response = await http.pro.deleteProApi(pro_id)
+			if (response.status === 204) {
+				ElMessage({
+					type: 'success',
+					message: '已成功删除该项目',
+				})
+				// 刷新页面数据
+				getProList()
+			}
+		})
+		.catch(() => {
+			ElMessage({
+				type: 'info',
+				message: '已取消删除操作',
+			})
+		})
+}
+
+function enterProject(pro){
+	const proStore = ProjectStore()
+		// 保存项目信息
+		proStore.pro = pro
+		router.push('home')
+	
+}
+
+
 
 </script>
 

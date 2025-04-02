@@ -1,23 +1,20 @@
 <template>
-  <div class="common-layout">
     <el-container>
-      <el-aside>
-		  <!-- <div style="border: 1px red solid;"></div> -->
+       <el-aside :style="{width:proStore.isCollapse? '65px' : '200px'}">
 		  <LeftMenu></LeftMenu>
-	  </el-aside>
+	   </el-aside>
       <el-container>
         <el-header>
 			<Header></Header>
 		</el-header>
         <el-main>
-			主体内容
+			<router-view></router-view>
 		</el-main>
         <el-footer>
 			<Footer></Footer>
 		</el-footer>
       </el-container>
     </el-container>
-  </div>
 </template>
 
 <script setup>
@@ -25,7 +22,10 @@
 	import Header from './components/Header.vue'
 	import Footer from './components/Footer.vue'
 	
-	import {UserStore} from '@/stores/UserStore'
+	import {UserStore} from '@/stores/module/UserStore'
+	import { ProjectStore } from '@/stores/module/ProStore'
+	
+	const proStore = ProjectStore()
 	const ustore = UserStore()
 
 </script>
@@ -37,7 +37,7 @@
 	
 		.el-aside {
 			border-right: solid 1px #6a6a6a;
-			width: 200px;
+			// width: 200px;
 		}
 	
 		.el-header {

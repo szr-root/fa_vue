@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {UserStore} from '@/stores/UserStore'
+import {UserStore} from '@/stores/module/UserStore'
 import { ElNotification} from 'element-plus'
 // import HomeView from '../views/HomeView.vue'
 
@@ -20,19 +20,29 @@ const router = createRouter({
 	  name: 'project',
 	  component: () => import('../views/Pro/ProView.vue'),
 	},
+	
 	{
 	  path: '/home',
 	  name: 'home',
 	  component: () => import('../views/Home/HomeView.vue'),
-	  // redirect: '/project/testenv',
-	  children: [{
-	  		path: '/project/testenv',
-	  		name: 'test_env',
+	  redirect: '/project/env',
+	  children: [
+		{
+	  		path: '/project/env',
+	  		name: 'env',
 	  		component: () => import('../views/Env/EnvView.vue'),
 	  		meta: {
 	  			name: "测试环境",
 	  		}
-	  	}
+		},
+		{
+			path: '/project/interface',
+			name: 'interface',
+			component: () => import('../views/Interface/InterfaceView.vue'),
+			meta: {
+				name: "接口列表",
+			}
+		},
 		]
 	}
   ], 

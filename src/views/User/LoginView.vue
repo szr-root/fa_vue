@@ -38,7 +38,7 @@
 	import {reactive,ref,computed,onBeforeMount} from 'vue'
 	import http from '@/api/index'
 	import { ElNotification,ElMessage} from 'element-plus'
-	import{UserStore} from '@/stores/UserStore'
+	import{UserStore} from '@/stores/module/UserStore'
 	import {useRouter} from 'vue-router'
 	
 	//创建路由对象
