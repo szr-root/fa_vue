@@ -18,7 +18,7 @@
 	const ustore = UserStore()
 	const MenuList = [
 		{
-			name: '项目环境',
+			name: '测试环境',
 			path: '/project/env',
 			iconImg: "/src/assets/icons/sun.png"
 		},

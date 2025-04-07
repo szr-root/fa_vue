@@ -2,3 +2,37 @@ body{
 	margin: 0;
 	
 }
+
+/*:root {*/
+/*    --el-tabs-header-height: 30px;*/
+/*    !* 主题色*!*/
+/*    --primary-color: #42b983;*/
+/*    --secondary-color: #34495e;*/
+/*    --primary-color-line: #d9d8d8;*/
+/*    --primary-color-background: #f8f8f8;*/
+/*    !*修改elementPlus主题色*!*/
+/*    !* 主要颜色 *!*/
+/*    --el-color-primary: #03c9c9;*/
+/*    --el-color-primary-light-9: #77e5e5;*/
+/*    --el-color-primary-light-8: #77e5e5;*/
+/*    --el-color-primary-light-7: #77e5e5;*/
+/*    --el-color-primary-light-6: #77e5e5;*/
+/*    --el-color-primary-light-5: #77e5e5;*/
+/*    --el-color-primary-light-4: #77e5e5;*/
+/*    --el-color-primary-light-3: #77e5e5;*/
+/*    --el-color-primary-light-2: #77e5e5;*/
+/*    --el-color-primary-light-1: #77e5e5;*/
+/*    --el-color-primary-dark-1: #77e5e5;*/
+/*    --el-color-primary-dark-2: #77e5e5;*/
+/*    --el-color-primary-dark-3: #77e5e5;*/
+/*    --el-color-primary-dark-4: #77e5e5;*/
+/*    --el-color-primary-dark-5: #77e5e5;*/
+/*    --el-color-primary-dark-6: #77e5e5;*/
+/*    --el-color-primary-dark-7: #77e5e5;*/
+/*    --el-color-success: #67c23a;*/
+/*    --el-color-warning: #e6a23c;*/
+/*    --el-color-danger: #f56c6c;*/
+/*    --el-color-info: #909399;*/
+/*    !*鼠标悬浮的菜单背景颜色*!*/
+/*    --el-menu-hover-bg-color: #e9ffff;*/
+/*}*/

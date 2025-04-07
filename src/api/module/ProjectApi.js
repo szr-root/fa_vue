@@ -22,5 +22,11 @@ export default {
 			}
 		})
 	},
+	createEnvApi(data){
+		return request.post('/api/testPro/envs',data)
+	},
+	deleteEnvApi(env_id){
+		return request.delete(`/api/testPro/envs/${env_id}`)
+	}
 	
 }
