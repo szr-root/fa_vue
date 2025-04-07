@@ -27,6 +27,8 @@ export default {
 	},
 	deleteEnvApi(env_id){
 		return request.delete(`/api/testPro/envs/${env_id}`)
-	}
-	
+	},
+	updateEnvApi(env_id,data){
+		return request.patch(`/api/testPro/envs/${env_id}`,data)
+	},
 }
