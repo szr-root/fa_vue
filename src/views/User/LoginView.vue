@@ -9,7 +9,7 @@
 				  <el-form :model="loginForm" :rules="loginRules" ref='loginFormRef'>
 				    <el-form-item prop="username">
 				      <el-input prefix-icon="User" v-model="loginForm.username" 
-								placeholder="请输入用户名"
+								placeholder="请输入用户名"  style="color: #000000;"
 					  />
 				    </el-form-item>
 					
@@ -121,7 +121,6 @@
 	.main{
 		width: 100vw;
 		height: 100vh;
-		/* background: url('../assets/hz.svg'); */
 		background: url('../../assets/bg.jpeg');
 		background-size: cover;
 		.login_box{
@@ -154,6 +153,12 @@
 		.login-form{
 			margin: 0 30px;
 		}
+
+  //
+  //.el-input__inner {  /* 直接定义样式 */
+  //  color: #000;  /* 修改为需要的颜色 */
+  //}
+
 	}
 
 </style>

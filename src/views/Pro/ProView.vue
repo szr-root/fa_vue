@@ -3,7 +3,7 @@
 		<div class="pro_box">
 			<div class="welcome">
 				<span>欢迎使用自动化测试平台</span>
-				<el-button icon="CirclePlus" size="small" @click='showDlg'>添加项目</el-button>
+				<el-button icon="CirclePlus" size="small" @click='showDlg' style="color: black">添加项目</el-button>
 			</div>
 			<div class="pro_list">			
 				<el-carousel type="card" height="400px" motion-blur  loop:false>

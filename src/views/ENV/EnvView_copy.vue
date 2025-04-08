@@ -81,8 +81,6 @@ const pstore = ProjectStore()
 
 pstore.getEnvList()
 
-
-
 // ----------添加测试环境==================
 async function addEnv() {
   const response = await http.pro.createEnvApi({

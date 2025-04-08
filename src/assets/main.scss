@@ -1,9 +1,20 @@
-body{
-	margin: 0;
-	
+body {
+  margin: 0;
+
+}
+
+.el-switch__label {
+  span {
+    color: black;
+  }
+}
+
+.el-input__inner{
+  color: black;
 }
 
 /*:root {*/
+/*    --el-text-color-primary: #000;*/
 /*    --el-tabs-header-height: 30px;*/
 /*    !* 主题色*!*/
 /*    --primary-color: #42b983;*/
