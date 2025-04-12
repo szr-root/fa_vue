@@ -11,13 +11,21 @@
 
     <!-- 右侧内容 -->
     <div class="card right_box">
-
+      <div class="title">项目接口管理</div>
+      <el-tabs type="border-card" class="demo-tabs">
+        <el-tab-pane label="项目接口">
+          <InterFaceList :interface='pstore.interfaces1'></InterFaceList>
+        </el-tab-pane>
+        <el-tab-pane label="第三方接口">
+          <InterFaceList :interface='pstore.interfaces2'></InterFaceList>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
 
 <script setup>
-import InterFaceDebug from './components/InterfaceDebug.vue'
+import InterFaceDebug from './components/InterFaceDebug.vue'
 import {ProjectStore} from '@/stores/module/ProStore'
 import InterFaceList from './components/InterFaceList.vue'
 
@@ -34,18 +42,18 @@ const pstore = ProjectStore()
   .left_box {
     padding: 5px;
     flex: 1;
-
-    .title {
-      font-weight: bold;
-      text-align: center;
-      height: 40px;
-      line-height: 40px;
-    }
   }
 
   .right_box {
     padding: 5px;
     flex: 1;
+  }
+
+  .title {
+    font-weight: bold;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
   }
 
 

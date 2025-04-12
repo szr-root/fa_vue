@@ -31,4 +31,26 @@ export default {
 	updateEnvApi(env_id,data){
 		return request.patch(`/api/testPro/envs/${env_id}`,data)
 	},
+    
+	// ===================== 接口相关 =======================
+	// 添加接口
+	createInterFaceApi(params) {
+		return request.post('/api/TestInterFace/interfaces/', params)
+	},
+	// 获取接口列表
+	getInterFaceListApi(pro_id) {
+		return request.get('/api/TestInterFace/interfaces/', {
+			params: {
+				project: pro_id
+			}
+		})
+	},
+	// 编辑接口
+	editInterFaceApi(id, params) {
+		return request.patch(`/api/TestInterFace/interfaces/${id}/`, params)
+	},
+	// 删除接口
+	deleteInterFaceApi(id) {
+		return request.delete(`/api/TestInterFace/interfaces/${id}/`)
+	},
 }

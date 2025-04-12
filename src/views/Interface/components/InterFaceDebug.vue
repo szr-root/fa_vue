@@ -58,7 +58,7 @@ import FromData from '@/components/FormData.vue'
 import {ref, reactive, computed} from 'vue'
 import Editor from '@/components/Editor.vue'
 import Result from '@/components/Result.vue'
-import api from '@/api/index'
+import http from '@/api/index'
 import {ProjectStore} from '@/stores/module/ProStore'
 
 const pstore = ProjectStore()
@@ -111,7 +111,7 @@ async function runInterFaseCase() {
   } else if (bodyType.value === 'form-data') {
     params.cases.file = caseData.request.file
   }
-  const response = await api.runInterFaceCaseApi(params)
+  const response = await http.pro.runInterFaceCaseApi(params)
   if (response.status === 200) {
     console.log('运行成功')
     responseData.value = response.data
