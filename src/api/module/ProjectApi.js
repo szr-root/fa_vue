@@ -53,4 +53,19 @@ export default {
 	deleteInterFaceApi(id) {
 		return request.delete(`/api/TestInterFace/interfaces/${id}/`)
 	},
+
+	// =====================文件相关 ======================
+	// 上传文件接口信息
+	uploadApi: {
+		url: request.defaults.baseURL + `/api/testPro/files/`,
+
+	},
+	// 获取文件列表
+	getFiles() {
+		return request.get(`/api/testPro/files/`)
+	},
+	// 删除文件
+	deleteFile(id) {
+		return request().delete(`/api/testPro/file/${id}/`)
+	},
 }
