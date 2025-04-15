@@ -22,45 +22,83 @@
           </el-select>
         </el-col>
         <el-col :span="4">
-          <el-button icon="Delete" size="small" type="danger" plain></el-button>
+          <el-button icon="Delete" @click="params.splice(index, 1)" size="small"
+                     type="danger" plain></el-button>
         </el-col>
       </el-row>
       <el-button @click="params.push(['',''])" style="margin-top: 10px;" icon="Plus" size="small" type="primary"
                  plain></el-button>
     </el-col>
     <el-col :span="9">
-      <el-card>
-        <el-upload class="upload-demo" :show-file-list="false"
-                   :on-success="uploadSuccess" :on-error="uploadError" name="file">
+      <el-card style="padding: 0;">
+        <el-upload class="upload-demo" :show-file-list="false" :action="uploadApi" :on-success="uploadSuccess"
+                   :on-error="uploadError" name="file">
           <el-button type="primary" plain size="small">上传文件</el-button>
         </el-upload>
         <el-table :data="files" style="width: 100%" size="small" height="200px">
-          <el-table-column label="已有文件">
+          <el-table-column label="已有文件" show-overflow-tooltip>
             <template #default="scope">
-              <el-tag type="success" @click="viewFile( scope.row.info[0] )">{{ scope.row.info[0] }}</el-tag>
+              <el-tag type="success" @click="viewFile(scope.row.info)">{{ scope.row.info[0] }}</el-tag>
             </template>
 
           </el-table-column>
           <el-table-column label="文件类型">
             <template #default="scope">
-              <el-tag type="info">{{ scope.row.info[2] }}</el-tag>
+              <el-tag type="info">{{ scope.row.info[1] }}</el-tag>
             </template>
           </el-table-column>
         </el-table>
-        <div>
-          <iframe ref="mediaIframe" style="width: 100%; height: 300px;"></iframe>
+
+        <div v-if="mediaIframe">
+          <img v-if="fileType === 'image'" @click="showFullImg" :src="mediaIframe" style="width: 100%; height: 200px;"
+               alt="预览">
+          <!--          <video v-else :src="mediaIframe"  @click="showFullImg" style="width: 100%; height: 200px;"></video>-->
+          <video
+              v-else
+              :src="mediaIframe"
+              @click="showFullImg"
+              controls
+              preload="metadata"
+              controlsList="nodownload"
+              style="width: 100%; height: 200px;">
+            您的浏览器不支持视频播放
+          </video>
         </div>
+
+        <!-- 添加Dialog组件,用于大屏展示 -->
+        <el-dialog v-if="fileType==='image'" v-model="dialogVisible" title="图片预览" width="80%">
+          <img :src="mediaIframe" style="width: 100%; height: auto;" alt="完整图片">
+        </el-dialog>
+        <el-dialog v-else v-model="dialogVisible" title="视频预览" :width="dialogWidth" ref="videoDialog">
+          <video
+              :src="mediaIframe"
+              style="width: 100%; height:500px;"
+              controls
+              preload="auto"
+              controlsList="nodownload"
+              @loadedmetadata="setDialogWidth"
+              autoplay
+          >
+            您的浏览器不支持视频播放
+          </video>
+        </el-dialog>
+
 
       </el-card>
     </el-col>
   </el-row>
 </template>
 
+
 <script setup>
 import {ref, watch, onMounted} from 'vue';
 import {ElMessage} from 'element-plus';
-import axios from 'axios';
 import http from '@/api/index';
+import request from '@/api/request';
+
+
+const uploadApi = request.defaults.baseURL + `/api/testFile/files/`
+
 
 const params = ref([]); // ['name','value']
 const files = ref([]);
@@ -77,16 +115,49 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-const viewFile = (name) => {
-  console.log(axios.defaults.baseURL);
-  const url = getImageOrVideoUrl(name);
-  document.getElementById('mediaIframe').src = url;
+
+const mediaIframe = ref(null);
+const dialogVisible = ref(false);
+const fileType = ref('image')
+
+
+const viewFile = (info) => {
+  mediaIframe.value = info[2];
+  const type = info[1].toLowerCase().split('/')[0];
+  console.log(type)
+  if (type === 'image') {
+    fileType.value = 'image'
+  } else {
+    fileType.value = 'video'
+    // 如果是视频，可以尝试添加时间戳来避免缓存问题
+    // mediaIframe.value = `${info[2]}?t=${new Date().getTime()}`;
+  }
+
 };
 
-const getImageOrVideoUrl = (name) => {
-  // 获取图片或视频的 URL
-  return axios.defaults.baseURL + `/files/${name}`; // 替换为实际的 URL
+const dialogWidth = ref('80%'); // 默认宽度
+const videoDialog = ref(null); // 对话框的 ref
+
+const setDialogWidth = (event) => {
+  const video = event.target;
+  const videoWidth = video.videoWidth;
+  const videoHeight = video.videoHeight;
+  const maxWidth = window.innerWidth * 0.8; // 最大宽度为视口宽度的80%
+  const maxHeight = window.innerHeight * 0.8; // 最大高度为视口高度的80%
+
+  let dialogWidthValue = (videoWidth / videoHeight) * maxHeight;
+  if (dialogWidthValue > maxWidth) {
+    dialogWidthValue = maxWidth;
+  }
+
+  dialogWidth.value = `${dialogWidthValue}px`;
 };
+
+
+const showFullImg = () => {
+  dialogVisible.value = true; // 显示Dialog
+};
+
 
 const selectType = (val, index) => {
   if (val === 'file') {
@@ -95,6 +166,7 @@ const selectType = (val, index) => {
     params.value[index][1] = '';
   }
 };
+
 
 const selectFile = (val, index) => {
   // 当前选中的文件
@@ -112,7 +184,7 @@ const uploadSuccess = (response) => {
     message: '文件上传成功!',
     duration: 2000
   });
-  getAllfile();
+  getAllFile();
 };
 
 const uploadError = (error) => {
@@ -170,122 +242,44 @@ watch(() => props.modelValue, (value) => {
 </script>
 
 
-<!--<script>-->
-<!--	export default {-->
-<!--		data() {-->
-<!--			return {-->
-<!--				// 编辑的参数-->
-<!--				params: [],-->
-<!--				// 文件列表-->
-<!--				files: [],-->
-<!--				// 参数类型列表-->
-<!--				paramsType: []-->
-<!--			};-->
-<!--		},-->
-<!--		props: {-->
-<!--			modelValue: {-->
-<!--				type: Array,-->
-<!--				default: [-->
-<!--					['', '']-->
-<!--				]-->
-<!--			}-->
-<!--		},-->
-<!--		emits: ['update:modelValue'],-->
-<!--		methods: {-->
-<!--			viewfile(name){-->
-<!--				console.log(axios.defaults.baseURL)-->
-<!--				const url = this.getImageOrVideoUrl(name);-->
-<!--					this.$refs.mediaIframe.src = url;-->
-<!--			},-->
-<!--			getImageOrVideoUrl(name) {-->
-<!--			      // 获取图片或视频的 URL-->
-<!--			      return axios.defaults.baseURL + `/files/${name}`; // 替换为实际的 URL-->
-<!--			},-->
-<!--			// 修改参数类型-->
-<!--			selectType(val, index) {-->
-<!--				if (val === 'file') {-->
-<!--					this.params[index][1] = ['', '', ''];-->
-<!--				} else {-->
-<!--					this.params[index][1] = '';-->
-<!--				}-->
-<!--			},-->
-<!--			// 修改参数值-->
-<!--			selectFile(val, index) {-->
-<!--				// 当前选中的文件-->
-<!--				const sFile = this.files.find(item => {-->
-<!--					return item.info[0] === val;-->
-<!--				});-->
-<!--				// 修改文件-->
-<!--				this.params[index][1] = [...sFile.info];-->
-<!--				console.log(this.params);-->
-<!--			},-->
-<!--			// 文件上传成功-->
-<!--			uploadSuccess(response) {-->
-<!--				ElMessage({-->
-<!--					type: 'success',-->
-<!--					message: '文件上传成功!',-->
-<!--					duration: 2000-->
-<!--				});-->
-<!--				this.getAllfile();-->
-<!--			},-->
-<!--			// 文件上传失败-->
-<!--			uploadError(error) {-->
-<!--				ElMessage({-->
-<!--					type: 'error',-->
-<!--					message: error,-->
-<!--					duration: 2000-->
-<!--				});-->
-<!--			},-->
-<!--			// 获取文件列表-->
-<!--			async getAllfile() {-->
-<!--				// 获取文件列表-->
-<!--				const response = await api.getFiles();-->
-<!--				if (response.status === 200) {-->
-<!--					this.files = response.data;-->
-<!--				}-->
-<!--			},-->
-<!--			// 获取参数的类型-->
-<!--			getParamsType() {-->
-<!--				// 获取参数类型-->
-<!--				this.paramsType = [];-->
-<!--				this.params.forEach(item => {-->
-<!--					if (typeof item[1] === 'string') {-->
-<!--						this.paramsType.push('text');-->
-<!--					} else {-->
-<!--						this.paramsType.push('file');-->
-<!--					}-->
-<!--				});-->
-<!--			}-->
-<!--		},-->
-<!--		created() {-->
-<!--			if (this.modelValue.length > 0) {-->
-<!--				this.params = this.modelValue;-->
-<!--			} else {-->
-<!--				this.params = [-->
-<!--					['', '']-->
-<!--				];-->
-<!--			}-->
-<!--			this.getAllfile();-->
-<!--			this.getParamsType();-->
-<!--		},-->
-<!--		watch: {-->
-<!--			'params.length': function(val) {-->
-<!--				this.getParamsType();-->
-<!--			},-->
-<!--			params: {-->
-<!--				deep: true,-->
-<!--				handler: function(value) {-->
-<!--					this.$emit('update:modelValue', value);-->
-<!--				}-->
-<!--			},-->
-<!--			modelValue: {-->
-<!--				deep: true,-->
-<!--				handler: function(value) {-->
-<!--					this.params = value;-->
-<!--				}-->
-<!--			}-->
-<!--		}-->
-<!--	};-->
-<!--</script>-->
+<style scoped lang="scss">
 
-<style></style>
+.el-card {
+  --el-card-padding: 10px;
+
+  .el-button {
+    margin-bottom: 5px;
+  }
+}
+
+
+// 添加视频相关样式
+video {
+  object-fit: contain;
+  background: #000; /* 添加黑色背景 */
+  cursor: pointer;
+
+  &::-webkit-media-controls-download-button {
+    display: none; /* 隐藏 Chrome 下载按钮 */
+  }
+
+  &::-webkit-media-controls-enclosure {
+    overflow: hidden;
+  }
+}
+
+// 优化弹窗中的视频显示
+.el-dialog {
+  .el-dialog__body {
+    padding: 10px;
+    background: #000;
+
+    video {
+      max-height: 70vh;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+}
+
+</style>

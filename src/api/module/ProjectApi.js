@@ -57,15 +57,15 @@ export default {
 	// =====================文件相关 ======================
 	// 上传文件接口信息
 	uploadApi: {
-		url: request.defaults.baseURL + `/api/testPro/files/`,
+		url: request.defaults.baseURL + `/api/testFile/files/`,
 
 	},
 	// 获取文件列表
 	getFiles() {
-		return request.get(`/api/testPro/files/`)
+		return request.get(`/api/testFile/files/`)
 	},
 	// 删除文件
 	deleteFile(id) {
-		return request().delete(`/api/testPro/file/${id}/`)
+		return request().delete(`/api/testFile/file/${id}/`)
 	},
 }
