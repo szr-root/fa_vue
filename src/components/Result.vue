@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-	import { ref, reactive, defineProps } from 'vue'
+	import { ref, reactive } from 'vue'
 	import Editor from '@/components/Editor.vue'
 	import api from '@/api/index'
 	import { ElNotification } from 'element-plus'

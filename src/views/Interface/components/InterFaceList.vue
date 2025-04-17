@@ -57,7 +57,7 @@
 
 <script setup>
 import http from '@/api/index';
-import {ref, defineProps, reactive} from 'vue'
+import {ref, reactive} from 'vue'
 import {ElNotification, ElMessageBox,ElMessage} from 'element-plus'
 import {ProjectStore} from '@/stores/module/ProStore'
 

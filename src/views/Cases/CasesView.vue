@@ -18,7 +18,7 @@
                 </el-tag>
                 <el-tag v-else-if='inter.method==="patch"' class="method_tag" size="small" type="warning">PATCH
                 </el-tag>
-                <el-tag v-else-if='inter.method==="put"' class="method_tag" size="small" type="">PUT</el-tag>
+                <el-tag v-else-if='inter.method==="put"' class="method_tag" size="small" type="primary">PUT</el-tag>
                 <el-tag v-else-if='inter.method==="delete"' class="method_tag" size="small" type="danger">DELETE
                 </el-tag>
                 <span style="text-overflow: ellipsis; overflow: hidden; max-width:100%; display: inline-block;"

@@ -174,7 +174,7 @@
 <script setup>
 import FromData from './FormData.vue'
 import {ElNotification, ElMessageBox} from 'element-plus'
-import {ref, reactive, defineProps, watch} from 'vue'
+import {ref, reactive, watch} from 'vue'
 import Editor from '@/components/Editor.vue'
 import api from '@/api/index'
 import {ProjectStore} from '@/stores/module/ProStore'
