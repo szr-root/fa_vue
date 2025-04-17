@@ -12,7 +12,7 @@
         </el-select>
       </template>
     </el-input>
-    <el-button type="primary">运行</el-button>
+    <el-button type="primary" @click='runInterFaseCase'>运行</el-button>
   </div>
   <!--请求信息-->
   <el-divider content-position="left">请求信息</el-divider>
@@ -49,7 +49,7 @@
   </el-tabs>
   <!-- 响应信息 -->
   <el-divider content-position="left">响应信息</el-divider>
-  <!--  <Result :result='responseData'></Result>-->
+    <Result :result='responseData'></Result>
 
 </template>
 
@@ -80,10 +80,6 @@ const caseData = reactive({
 })
 
 
-// const isDisabled = computed(
-// 	()=>{return caseData.interface.method == 'get'? 'true':'false'}
-// )
-
 let bodyType = ref('json')
 // ===============运行接口用例===========
 let responseData = ref({})
@@ -111,9 +107,8 @@ async function runInterFaseCase() {
   } else if (bodyType.value === 'form-data') {
     params.cases.file = caseData.request.file
   }
-  const response = await http.pro.runInterFaceCaseApi(params)
+  const response = await http.run.runInterFaceCaseApi(params)
   if (response.status === 200) {
-    console.log('运行成功')
     responseData.value = response.data
   }
 }
