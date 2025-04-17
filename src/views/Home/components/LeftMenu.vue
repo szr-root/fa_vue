@@ -28,8 +28,8 @@
 			iconImg: "/src/assets/icons/hai.png"
 		},
 		{
-			name: '其他',
-			path: '/other',
+			name: '用例列表',
+			path: '/project/cases',
 			iconImg: "/src/assets/icons/jin.png"
 		},
 		{

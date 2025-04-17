@@ -44,6 +44,14 @@ const router = createRouter({
                         name: "接口列表",
                     }
                 },
+                {
+                    path: '/project/cases',
+                    name: 'cases',
+                    component: () => import('../views/Cases/CasesView.vue'),
+                    meta: {
+                        name: "用例列表",
+                    }
+                },
             ]
         }
     ],

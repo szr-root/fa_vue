@@ -19,13 +19,13 @@ export const ProjectStore = defineStore('proStore', {
 		// 项目接口
 		interfaces1() {
 			return this.interfaces.filter((item) => {
-				return item.type == '1'
+				return item.type === '1'
 			})
 		},
 		// 第三方接口
 		interfaces2() {
 			return this.interfaces.filter((item) => {
-				return item.type == '2'
+				return item.type === '2'
 			})
 		},
 	},

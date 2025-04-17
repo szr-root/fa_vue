@@ -14,6 +14,12 @@ body {
   color: black;
 }
 
+.el-tabs--card {
+  .el-tabs__header {
+    margin: 0 0 1px;
+  }
+}
+
 /*:root {*/
 /*    --el-text-color-primary: #000;*/
 /*    --el-tabs-header-height: 30px;*/

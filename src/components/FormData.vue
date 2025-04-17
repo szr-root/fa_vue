@@ -38,7 +38,9 @@
         <el-table :data="files" style="width: 100%" size="small" height="200px">
           <el-table-column label="已有文件" show-overflow-tooltip>
             <template #default="scope">
-              <el-tag type="success" @click="viewFile(scope.row.info)">{{ scope.row.info[0] }}</el-tag>
+              <el-tag class="ellipsis-tag" type="success"
+                      @click="viewFile(scope.row.info)">{{ scope.row.info[0] }}
+              </el-tag>
             </template>
 
           </el-table-column>
@@ -281,5 +283,29 @@ video {
     }
   }
 }
+
+.el-tag{
+  padding:0;
+  min-width:100%;
+  text-align:center;
+  line-height: 24px;
+}
+
+.ellipsis-tag {
+  max-width: 100%; // 限制最大宽度
+  overflow: hidden; // 隐藏超出部分
+  text-overflow: ellipsis; // 显示省略号
+  white-space: nowrap; // 禁止换行
+  display: inline-block; // 使得宽度限制生效
+
+  :deep(.el-tag__content) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+
 
 </style>

@@ -36,7 +36,6 @@
 					<el-tag v-else type="danger">{{item[1]}}</el-tag>
 				</div>
 			</div>
-
 		</el-tab-pane>
 		<el-tab-pane disabled>
 			<template #label>
