@@ -420,14 +420,14 @@ async function runCase() {
 // 生成前置脚本
 function addSetupScript(item) {
   if (item === "func") {
-    caseData.setup_script += '\n# 调用全局工具函数random_mobile随机生成一个手机号码\nmobile = global_func.random_mobile()'
+    caseData.setup_script += '# 调用全局工具函数random_mobile随机生成一个手机号码\nmobile = global_func.random_mobile()\n'
   } else if (item === "global") {
-    caseData.setup_script += '\n# 设置局部变量\ntest.save_global_variable("变量名","变量值")'
+    caseData.setup_script += '# 设置局部变量\ntest.save_global_variable("变量名","变量值")\n'
   } else if (item === "env") {
-    caseData.setup_script += '\n# 设置局部变量\ntest.save_env_variable("变量名","变量值")'
+    caseData.setup_script += '# 设置局部变量\ntest.save_env_variable("变量名","变量值")\n'
   } else if (item === "sql") {
     caseData.setup_script +=
-        '\n # ----执行sql语句(需要在环境中配置数据库连接信息)----\n # db.连接名.execute_all(sql语句) \nsql = "SELECT count(*) as count FROM futureloan.member"\nres = db.aliyun.execute_all(sql)'
+        '# ----执行sql语句(需要在环境中配置数据库连接信息)----\n # db.连接名.execute_all(sql语句) \nsql = "SELECT count(*) as count FROM futureloan.member"\nres = db.hwyun.execute_all(sql)\n'
   }
 
 }
@@ -475,6 +475,7 @@ function addTearDownCodeMod(item) {
 
   .code {
     flex: 1;
+    margin-right: 5px;
   }
 
   .mod {
