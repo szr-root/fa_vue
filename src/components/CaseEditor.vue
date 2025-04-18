@@ -176,12 +176,12 @@ import FromData from './FormData.vue'
 import {ElNotification, ElMessageBox} from 'element-plus'
 import {ref, reactive, watch} from 'vue'
 import Editor from '@/components/Editor.vue'
-import api from '@/api/index'
+import http from '@/api/index'
 import {ProjectStore} from '@/stores/module/ProStore'
 import Result from '@/components/Result.vue'
 
 
-const prop = defineProps({
+const props = defineProps({
   case_id: ""
 })
 
@@ -211,7 +211,7 @@ const file = ref([])
 let caseObj = {}
 
 // 侦听case_id的变化
-watch(() => prop.case_id, (val) => {
+watch(() => props.case_id, (val) => {
   if (val !== '') {
     getCaseInfo(val)
   }
@@ -221,7 +221,7 @@ watch(() => prop.case_id, (val) => {
 // 调用获取详情的接口
 async function getCaseInfo(id) {
   // console.log("获取详情："+id)
-  const response = await api.getCaseInfoAPi(id)
+  const response = await http.pro.getCaseInfoAPi(id)
   if (response.status === 200) {
     // 保存用例对象
     caseObj = response.data
@@ -256,8 +256,8 @@ async function getCaseInfo(id) {
   }
 }
 
-if (prop.case_id != undefined) {
-  getCaseInfo(prop.case_id)
+if (props.case_id != undefined) {
+  getCaseInfo(props.case_id)
 }
 
 const pstore = ProjectStore()
@@ -273,7 +273,7 @@ function clickDelete() {
       }
   ).then(async () => {
     // 调用后端接口进行删除
-    const response = await api.deleteCaseApi(prop.case_id)
+    const response = await http.pro.deleteCaseApi(props.case_id)
     if (response.status === 204) {
       ElNotification({
         title: '删除成功',
@@ -310,7 +310,7 @@ function resetData() {
 
 // 复制用例
 async function copyCase() {
-  const response = await api.createCaseApi({
+  const response = await http.pro.createCaseApi({
     title: caseObj.title + '-COPY',
     interface: caseObj.interface.id
   })
@@ -361,7 +361,7 @@ async function saveCase() {
 
 
   // 调用修改用例的接口
-  const response = await api.updateCaseApi(prop.case_id, params)
+  const response = await api.updateCaseApi(props.case_id, params)
   if (response.status === 200) {
     ElNotification({
       title: '保存成功',
@@ -463,6 +463,13 @@ function addTearDownCodeMod(item) {
 </script>
 
 <style lang="scss" scoped>
+// 取消第一个折叠项的上边框
+
+.el-collapse{
+  border-top: none;
+}
+
+
 .script_code {
   display: flex;
 

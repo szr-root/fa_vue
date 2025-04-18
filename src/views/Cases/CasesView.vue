@@ -77,7 +77,7 @@
     </div>
 
     <div class="card right_box">
-
+      <CaseEditor :case_id='activeCase'></CaseEditor>
     </div>
 
   </div>
