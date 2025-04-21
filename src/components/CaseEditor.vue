@@ -1,5 +1,5 @@
 <template>
-  <el-collapse v-model="activeNames">
+  <el-collapse v-model="activeNames" v-loading="scrennLoading" element-loading-text="运行中..."  element-loading-background="rgba(122, 122, 122, 0.8)">
     <el-collapse-item name="1">
       <template #title>
         <img src="@/assets/icons/icon-api-a.png" width="20">
@@ -35,24 +35,12 @@
       </template>
       <div class='script_code'>
         <div class="code">
-          <Editor v-model="caseData.setup_script" lang="python" height='300px'></Editor>
+          <Editor v-model="caseData.setup_script" lang="python" height='300px' class="scriptEdit"></Editor>
         </div>
         <div class='mod'>
           <div class="add_code">
             <el-button @click='addSetupScript("func")' plain size="small">调用全局工具函数</el-button>
           </div>
-          <!-- <div class="add_code">
-            <el-button @click='addSetupScript("func")' plain size="small">
-
-              <el-collapse>
-                <el-collapse-item title="调用全局工具函数">
-                  <div>
-                    XXXX
-                  </div>
-                </el-collapse-item>
-              </el-collapse>
-              </el-button>
-          </div> -->
           <div class="add_code">
             <el-button @click='addSetupScript("global")' plain size="small">设置全局变量</el-button>
           </div>
@@ -108,7 +96,7 @@
       </template>
       <div class='script_code'>
         <div class="code">
-          <Editor v-model="caseData.teardown_script" lang="python" height='300px'></Editor>
+          <Editor v-model="caseData.teardown_script" lang="python" height='300px' ></Editor>
         </div>
         <div class='mod'>
           <el-scrollbar height="300px">
@@ -159,7 +147,7 @@
   </el-affix>
 
   <!-- 测试用例运行的结果 -->
-  <el-drawer v-model="isShowDrawer" size="40%">
+  <el-drawer v-model="isShowDrawer" size="50%">
     <template #header>
       <b>运行结果</b>
     </template>
@@ -173,7 +161,7 @@
 
 <script setup>
 import FromData from './FormData.vue'
-import {ElNotification, ElMessageBox} from 'element-plus'
+import {ElNotification, ElMessageBox,ElLoading} from 'element-plus'
 import {ref, reactive, watch} from 'vue'
 import Editor from '@/components/Editor.vue'
 import http from '@/api/index'
@@ -377,8 +365,14 @@ async function saveCase() {
 let responseData = ref({})
 // 是否显示结果的窗口
 let isShowDrawer = ref(false)
+// 显示loading
+const scrennLoading = ref(false)
+
 
 async function runCase() {
+  // 显示loading
+  scrennLoading.value = true
+
   // 准备参数
   const params = {
     env: pstore.env,
@@ -405,15 +399,15 @@ async function runCase() {
   }
   // console.log(params.cases.request)
   // 调用运行用例的接口
-  const response = await api.runInterFaceCaseApi(params)
+  const response = await http.run.runInterFaceCaseApi(params)
   if (response.status === 200) {
     // console.log('运行成功')
     responseData.value = response.data
     // 展示执行结果
     isShowDrawer.value = true
   }
-
-
+  // 隐藏loading
+  scrennLoading.value = false
 }
 
 
@@ -460,6 +454,10 @@ function addTearDownCodeMod(item) {
     caseData.teardown_script += '\n# 断言包含:预期结果中的内容在实际结果中是否存在 \ntest.assertion("包含","预期结果","实际结果")';
   }
 }
+
+
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -486,4 +484,5 @@ function addTearDownCodeMod(item) {
 .btns {
   text-align: center;
 }
+
 </style>
