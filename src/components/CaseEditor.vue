@@ -1,5 +1,5 @@
 <template>
-  <el-collapse v-model="activeNames" v-loading="scrennLoading" element-loading-text="运行中..."  element-loading-background="rgba(122, 122, 122, 0.8)">
+  <el-collapse v-model="activeNames" v-loading="screenLoading" element-loading-text="运行中..."  element-loading-background="rgba(122, 122, 122, 0.8)">
     <el-collapse-item name="1">
       <template #title>
         <img src="@/assets/icons/icon-api-a.png" width="20">
@@ -349,14 +349,14 @@ async function saveCase() {
 
 
   // 调用修改用例的接口
-  const response = await api.updateCaseApi(props.case_id, params)
+  const response = await http.pro.updateCaseApi(props.case_id, params)
   if (response.status === 200) {
     ElNotification({
       title: '保存成功',
       type: 'success',
     })
     // 刷新页面数据
-    pstore.getInterFaceList()
+    await pstore.getInterFaceList()
   }
 }
 
@@ -366,12 +366,12 @@ let responseData = ref({})
 // 是否显示结果的窗口
 let isShowDrawer = ref(false)
 // 显示loading
-const scrennLoading = ref(false)
+const screenLoading = ref(false)
 
 
 async function runCase() {
   // 显示loading
-  scrennLoading.value = true
+  screenLoading.value = true
 
   // 准备参数
   const params = {
@@ -407,7 +407,7 @@ async function runCase() {
     isShowDrawer.value = true
   }
   // 隐藏loading
-  scrennLoading.value = false
+  screenLoading.value = false
 }
 
 

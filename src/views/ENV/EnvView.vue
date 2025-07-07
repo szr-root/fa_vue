@@ -34,7 +34,7 @@
             <template #prepend>BaseURL</template>
           </el-input>
 
-          <el-divider content-position="left"><span class="info_text">请求头/数据库</span></el-divider>
+          <el-divider content-position="left"><span class="info_text">请求头/数据库/解密脚本</span></el-divider>
           <el-tabs type="border-card">
             <el-tab-pane label="全局请求头">
               <Editor lang="json" v-model="env_headers"></Editor>
@@ -42,6 +42,10 @@
             <el-tab-pane label="数据库配置">
               <Editor lang="json" v-model="env_db"></Editor>
             </el-tab-pane>
+            <el-tab-pane label="解密脚本">
+              <Editor lang="python" v-model="env_decrypt"></Editor>
+            </el-tab-pane>
+
           </el-tabs>
           <el-divider content-position="left"><span class="info_text"> 全局变量</span></el-divider>
           <el-tabs type="border-card">
@@ -111,7 +115,7 @@ async function addEnv() {
       type: 'success',
     })
     // 更新页面数据
-    pstore.getEnvList()
+    await pstore.getEnvList()
     envList.value = pstore.envList
   }
 }
@@ -121,9 +125,11 @@ let env_name = ref('')
 let env_host = ref('')
 let env_headers = ref('{}')
 let env_db = ref('[]')
+let env_decrypt = ref('')
 let env_global_variable = ref('{}')
 let env_debug_global_variable = ref('{}')
 let env_global_func = ref('')
+
 
 // 保存当前选择的测试环境
 let EnvInfo = ref({})
@@ -138,6 +144,7 @@ function selectEnv(env) {
   env_db.value = JSON.stringify(env.db, 0, 4) || "[]"
   env_global_variable.value = JSON.stringify(env.global_variable, 0, 4) || "{}"
   env_debug_global_variable.value = JSON.stringify(env.debug_global_variable, 0, 4) || "{}"
+  env_decrypt.value = env.decrypt_py || ""
   env_global_func.value = env.global_func
 }
 
@@ -160,7 +167,7 @@ function clickDeleteEnv() {
             type: 'success',
           })
           // 更新页面数据
-          pstore.getEnvList()
+          await pstore.getEnvList()
           envList.value = pstore.envList
           // 重新设置一个选中的测试环境
           if (envList.value.length > 0) {
@@ -183,7 +190,7 @@ async function copyEnv() {
       type: 'success',
     })
     // 更新页面数据
-    pstore.getEnvList()
+    await pstore.getEnvList()
     envList.value = pstore.envList
   }
 }
@@ -200,6 +207,7 @@ async function saveEnv() {
     db: JSON.parse(env_db.value),
     headers: JSON.parse(env_headers.value),
     global_variable: JSON.parse(env_global_variable.value),
+    decrypt_py: env_decrypt.value,
     debug_global_variable: JSON.parse(env_debug_global_variable.value),
   }
   const response = await http.pro.updateEnvApi(env_id, params)
@@ -210,7 +218,7 @@ async function saveEnv() {
       type: 'success',
     })
     // 更新页面数据
-    pstore.getEnvList()
+    await pstore.getEnvList()
   }
 }
 
