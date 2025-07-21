@@ -6,4 +6,8 @@ export default {
         return request.post('/api/TestInterFace/cases/run/', params)
     },
 
+    //运行业务流
+    runFlowApi(params){
+        return request.post(`/api/TestFlow/flows/run`,params)
+    }
 }

@@ -1,6 +1,7 @@
 import userApi from '@/api/module/UserApi'
 import projectApi from '@/api/module/ProjectApi'
 import runApi from '@/api/module/RunApi'
+import flowApi from '@/api/module/FlowApi'
 
 export default {
 	//用户模块接口
@@ -9,5 +10,7 @@ export default {
 	pro: projectApi,
 	//运行相关的接口
 	run:runApi,
+	//测试业务流
+	flow:flowApi,
 
 }

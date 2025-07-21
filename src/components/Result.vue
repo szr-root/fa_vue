@@ -92,6 +92,9 @@
 		result: {},
 		hideBtn: false
 	})
+
+  // console.log(prop.result)
+
 	// 实例化store对象
 	const proStores = ProjectStore()
 	const pro = proStores.pro

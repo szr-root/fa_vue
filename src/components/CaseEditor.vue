@@ -2,7 +2,7 @@
   <el-collapse v-model="activeNames" v-loading="screenLoading" element-loading-text="运行中..."  element-loading-background="rgba(122, 122, 122, 0.8)">
     <el-collapse-item name="1">
       <template #title>
-        <img src="@/assets/icons/icon-api-a.png" width="20">
+        <img src="@/assets/icons/icon-api-a.png" :width="20" alt="">
         <b>API信息</b>
       </template>
       <el-input v-model="caseData.interface.url" readonly>
@@ -19,7 +19,7 @@
     </el-collapse-item>
     <el-collapse-item name="2">
       <template #title>
-        <img src="@/assets/icons/case.png" width="20">
+        <img src="@/assets/icons/case.png" :width="20" alt="">
         <b>用例名称</b>
       </template>
       <el-input v-model="caseData.title">
@@ -30,7 +30,7 @@
     </el-collapse-item>
     <el-collapse-item name="3">
       <template #title>
-        <img src="@/assets/icons/instruction.png" width="20">
+        <img src="@/assets/icons/instruction.png" :width="20" alt="">
         <b>前置脚本</b>
       </template>
       <div class='script_code'>
@@ -55,22 +55,22 @@
     </el-collapse-item>
     <el-collapse-item name="4">
       <template #title>
-        <img src="@/assets/icons/keyhole.png" width="20">
+        <img src="@/assets/icons/keyhole.png" :width="20" alt="">
         <b>请求头</b>
       </template>
       <Editor lang="json" v-model="caseData.headers"></Editor>
     </el-collapse-item>
     <el-collapse-item name="5">
       <template #title>
-        <img src="@/assets/icons/API_api.png" width="20">
+        <img src="@/assets/icons/API_api.png" :width="20" alt="">
         <b>查询参数</b>
       </template>
       <Editor lang="json" v-model="caseData.request.params"></Editor>
 
     </el-collapse-item>
-    <el-collapse-item name="6" :disabled="caseData.interface.method=='get'">
+    <el-collapse-item name="6" :disabled="caseData.interface.method==='get'">
       <template #title>
-        <img src="@/assets/icons/body.png" width="20">
+        <img src="@/assets/icons/body.png" :width="20" alt="">
         <b>请求体</b>
       </template>
       <el-radio-group v-model="bodyType">
@@ -91,7 +91,7 @@
     </el-collapse-item>
     <el-collapse-item name="7">
       <template #title>
-        <img src="@/assets/icons/instruction.png" width="20">
+        <img src="@/assets/icons/instruction.png" :width="20" alt="">
         <b>后置断言脚本</b>
       </template>
       <div class='script_code'>
@@ -161,7 +161,7 @@
 
 <script setup>
 import FromData from './FormData.vue'
-import {ElNotification, ElMessageBox,ElLoading} from 'element-plus'
+import {ElNotification, ElMessageBox} from 'element-plus'
 import {ref, reactive, watch} from 'vue'
 import Editor from '@/components/Editor.vue'
 import http from '@/api/index'
@@ -227,7 +227,7 @@ async function getCaseInfo(id) {
 
   }
   // get请求默认不展示请求体，其他默认自动展开
-  if (caseData.interface.method == 'get') {
+  if (caseData.interface.method === 'get') {
     activeNames.value = ['1', '2']
   } else {
     activeNames.value = ['1', '2', '6']
@@ -235,16 +235,16 @@ async function getCaseInfo(id) {
 
   // console.log(activeNames)
   // 根据请求体信息，默认选中对应的拦
-  if (caseData.request.json != '{}') {
+  if (caseData.request.json !== '{}') {
     bodyType.value = 'json'
-  } else if (caseData.request.data != '{}') {
+  } else if (caseData.request.data !== '{}') {
     bodyType.value = 'data'
-  } else if (caseData.file.length != 0) {
+  } else if (caseData.file.length !== 0) {
     bodyType.value = 'form-data'
   }
 }
 
-if (props.case_id != undefined) {
+if (props.case_id !== undefined) {
   getCaseInfo(props.case_id)
 }
 
@@ -315,13 +315,13 @@ async function copyCase() {
 // 保存用例
 async function saveCase() {
 
-  if (caseData.headers == '') {
+  if (caseData.headers === '') {
     caseData.headers = '{}'
-  } else if (caseData.request.params == '') {
+  } else if (caseData.request.params === '') {
     caseData.request.params = '{}'
-  } else if (caseData.request.json == '') {
+  } else if (caseData.request.json === '') {
     caseData.request.json = '{}'
-  } else if (caseData.request.data == '') {
+  } else if (caseData.request.data === '') {
     caseData.request.data = '{}'
   }
 
@@ -336,7 +336,7 @@ async function saveCase() {
     teardown_script: caseData.teardown_script,
   }
   // console.log('save')
-  if (caseData.interface.method != 'get') {
+  if (caseData.interface.method !== 'get') {
     // console.log('!get')
     if (bodyType.value === 'json') {
       params.request.json = JSON.parse(caseData.request.json)
@@ -388,7 +388,7 @@ async function runCase() {
     }
   }
   // console.log(params.cases.interface.method)
-  if (params.cases.interface.method != 'get') {
+  if (params.cases.interface.method !== 'get') {
     if (bodyType.value === 'json') {
       params.cases.request.json = JSON.parse(caseData.request.json)
     } else if (bodyType.value === 'data') {
@@ -429,25 +429,25 @@ function addSetupScript(item) {
 // 生成后置脚本
 function addTearDownCodeMod(item) {
   if (item === "getBody") {
-    caseData.teardown_script += '\n# Demo:获取响应体(json)  \nbody = response.json()';
-    caseData.teardown_script += '\n# Demo2:获取响应体(字符串)  \nbody = response.text';
+    caseData.teardown_script += '\n# 获取响应体(json)  \nbody = self.response_body';
+    caseData.teardown_script += '\n# 获取响应体(字符串)  \nbody = response.text';
   } else if (item === "JSextract") {
     caseData.teardown_script +=
-        '\n# Demo:jsonpath提取response中的msg字段  \nmsg = test.json_extract(response.json(),"$..msg")';
+        '\n# jsonpath提取response中的msg字段  \nmsg = test.json_extract(response.json(),"$..msg")';
   } else if (item === "REextract") {
-    caseData.teardown_script += '\n# Demo:正则提取响应体中的数据  \nres = test.re_extract(response.text,"正则表达式",)';
+    caseData.teardown_script += '\n# 正则提取响应体中的数据  \nres = test.re_extract(response.text,"正则表达式",)';
   } else if (item === "sql") {
     caseData.setup_script +=
         '\n # ----执行sql语句(需要在环境中配置数据库连接信息)----\n # db.连接名.execute_all(sql语句) \nsql = "SELECT count(*) as count FROM futureloan.member"\nres = db.aliyun.execute_all(sql)'
   } else if (item === "global") {
-    caseData.teardown_script += '\n# 设置局部变量\ntest.save_global_variable("变量名","变量值")'
+    caseData.teardown_script += '\n# 设置全局变量\ntest.save_global_variable("变量名","变量值")'
   } else if (item === "env") {
     caseData.teardown_script += '\n# 设置局部变量\ntest.save_env_variable("变量名","变量值")'
   } else if (item === "func") {
     caseData.teardown_script += '\n# 调用全局工具函数random_mobile随机生成一个手机号码\nmobile = global_func.random_mobile()'
   } else if (item === "http") {
     caseData.teardown_script +=
-        '\n# 断言http状态码 \n# Demo:断言http状态码是否为200  \ntest.assertion("相等",200,response.status_code)';
+        '\n# 断言http状态码 \n# 断言http状态码是否为200  \ntest.assertion("相等",200,response.status_code)';
   } else if (item === "eq") {
     caseData.teardown_script += '\n# 断言相等（大于（预期>实际），大于等于，小于，小于等于，不相等） \ntest.assertion("相等","预期结果","实际结果")';
   } else if (item === "contain") {

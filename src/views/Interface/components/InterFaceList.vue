@@ -1,9 +1,9 @@
 <template>
   <el-button @click="clickAdd" size="small" type="primary" plain style="margin-bottom:10px ">添加接口</el-button>
   <el-table :data="props.interface" style="width: 100%">
-    <el-table-column prop="name" label="接口名称" width="150" align="center" show-overflow-tooltip/>
-    <el-table-column prop="url" label="接口地址" width="200" align="center"/>
-    <el-table-column prop="method" label="请求方法" align="center"/>
+    <el-table-column prop="name" label="接口名称" width="170" align="center" show-overflow-tooltip/>
+    <el-table-column prop="url" label="接口地址" width="210" align="center" show-overflow-tooltip/>
+    <el-table-column prop="method" label="请求方法" width="80" align="center"/>
     <el-table-column label="操作" align="right" header-align="center">
       <template #default="scope">
         <el-button @click="clickEdit(scope.row)" size="small" icon='Edit' type="primary" plain></el-button>

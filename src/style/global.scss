@@ -1,34 +1,46 @@
 // 定义全局的css样式
 html,
 body,
-#app
-{
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	width: 100%;
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
 // 统一设置页面的额滚动条样式
-::-webkit-scrollbar{
-	width: 6px;
-	height: 6px;
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-::-webkit-scrollbar-thumb{
-	background-color: #6f6f6f;
-	border-radius: 20px;
+
+::-webkit-scrollbar-thumb {
+  background-color: #6f6f6f;
+  border-radius: 20px;
 }
 
 
 // 全局的卡片组件样式
-.card{
-	border: solid 1px #6a6a6a;
-	margin: 2px;
-	border-radius: 5px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	
-	
+.card {
+  border: solid 1px #6a6a6a;
+  margin: 2px;
+  border-radius: 5px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-
+.el-drawer {
+  .el-drawer__header {
+    padding: 10px;
+    margin-bottom: 0;
+    text-align: center;
+    .el-drawer__title{
+      font-size: 16px;
+      text-align: center;
+      padding-top: 10px;
+    }
+  }
+  .el-drawer__body{
+    padding-top: 0;
+  }
+}

@@ -52,6 +52,14 @@ const router = createRouter({
                         name: "用例列表",
                     }
                 },
+                {
+                    path: '/project/testflow',
+                    name: 'testflow',
+                    component: () => import('../views/TestFlow/TestFlowView.vue'),
+                    meta: {
+                        name: "业务流测试",
+                    }
+                },
             ]
         }
     ],

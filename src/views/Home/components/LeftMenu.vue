@@ -33,8 +33,8 @@
 			iconImg: "/src/assets/icons/jin.png"
 		},
 		{
-			name: '其他2',
-			path: '/other2',
+			name: '业务流测试',
+			path: '/project/testflow',
 			iconImg: "/src/assets/icons/earth.png"
 		},
 		{
