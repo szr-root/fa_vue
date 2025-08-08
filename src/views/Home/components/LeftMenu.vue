@@ -38,13 +38,13 @@
 			iconImg: "/src/assets/icons/earth.png"
 		},
 		{
-			name: '其他3',
-			path: '/other3',
+			name: '测试任务',
+			path: '/project/testTask',
 			iconImg: "/src/assets/icons/huo.png"
 		},
 		{
 			name: '其他4',
-			path: '/other4',
+			path: '/',
 			iconImg: "/src/assets/icons/mu.png"
 		},
 		{

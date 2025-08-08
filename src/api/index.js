@@ -2,6 +2,7 @@ import userApi from '@/api/module/UserApi'
 import projectApi from '@/api/module/ProjectApi'
 import runApi from '@/api/module/RunApi'
 import flowApi from '@/api/module/FlowApi'
+import taskApi from "@/api/module/TaskApi.js";
 
 export default {
 	//用户模块接口
@@ -12,5 +13,7 @@ export default {
 	run:runApi,
 	//测试业务流
 	flow:flowApi,
+	//测试任务
+	task:taskApi,
 
 }

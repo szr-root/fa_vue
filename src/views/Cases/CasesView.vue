@@ -9,7 +9,7 @@
       <el-tabs stretch v-model='activaTab'>
         <el-tab-pane label="项目接口" name="api1">
           <!--           层级菜单-->
-          <el-menu :default-active="activeCase+''">
+          <el-menu :default-active="activeCase+'_case'">
             <el-sub-menu :index="inter.id.toString()" v-for='inter in pstore.interfaces1' :key='inter.id'>
               <template #title>
                 <img src="@/assets/icons/icon-api-a.png" width="20">
@@ -25,8 +25,8 @@
                       :title="inter.name">{{ inter.name }}</span>
               </template>
               <!-- 注意点：el-menu下面的菜单项或者层级菜单的index值必须是唯一的 -->
-              <el-menu-item @click='selectCase(_case.id)' :index="_case.id.toString()"
-                            v-for='_case in inter.cases' key='_case.id' style="height: 35px;line-height: 35px;">
+              <el-menu-item @click='selectCase(_case.id)' :index="_case.id.toString()+'_case'"
+                            v-for='_case in inter.cases' key='_case.id_case' style="height: 35px;line-height: 35px;">
                 <img src="@/assets/icons/case.png" width="20">
                 <span style="margin: 0 5px;">{{ _case.title }}</span>
               </el-menu-item>
@@ -163,7 +163,7 @@ async function addCase() {
 
   // 左侧样式
   .left_box {
-    width: 230px;
+    width: 270px;
 
     // 左侧标题栏样式
     .title_box {

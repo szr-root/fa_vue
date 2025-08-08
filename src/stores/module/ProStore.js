@@ -4,7 +4,9 @@ import http from '@/api/index'
 export const ProjectStore = defineStore('proStore', {
     state: () => {
         return {
-            pro: {},
+            pro: {
+                id: null,
+            },
             envList: [],
             isCollapse: false,
             // 顶部选中的测试环境
@@ -13,6 +15,8 @@ export const ProjectStore = defineStore('proStore', {
             tags: [],
             // 保存接口列表
 			interfaces: [],
+            //保存业务流
+            flows: [],
         }
     },
     getters: {

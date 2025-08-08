@@ -91,7 +91,7 @@ async function addToFlow() {
     orders += 1;
     const data = {
       icase: item.id,
-      scene: props.flow.id,
+      flow: props.flow.id,
       sort: orders
     }
     const response = await http.flow.addFlowCaseApi(data)

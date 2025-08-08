@@ -140,6 +140,8 @@ async function getFlowList() {
   const response = await http.flow.getFlowListApi(pStore.pro.id)
   if (response.status === 200) {
     flowList.value = response.data
+    // 将数据保存到pstore中
+    pStore.flows = response.data
   }
   // console.log(response.data)
 }

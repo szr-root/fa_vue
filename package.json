@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "ace-builds": "^1.37.5",
     "axios": "^1.7.9",
+    "echarts": "^5.6.0",
     "element-plus": "^2.8.8",
     "pinia": "^2.3.0",
     "pinia-plugin-persist": "^1.0.0",

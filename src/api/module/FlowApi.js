@@ -31,7 +31,7 @@ export default {
     getFlowCaseListApi(suite_id){
         return request.get(`/api/TestFlow/flows/cases`,{
             params: {
-                scene: suite_id
+                flow: suite_id
             }
         })
     },

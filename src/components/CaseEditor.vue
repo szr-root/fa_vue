@@ -429,7 +429,7 @@ function addSetupScript(item) {
 // 生成后置脚本
 function addTearDownCodeMod(item) {
   if (item === "getBody") {
-    caseData.teardown_script += '\n# 获取响应体(json)  \nbody = self.response_body';
+    caseData.teardown_script += '\n# 获取响应体(json)  \nbody = json.loads(self.response_body)';
     caseData.teardown_script += '\n# 获取响应体(字符串)  \nbody = response.text';
   } else if (item === "JSextract") {
     caseData.teardown_script +=

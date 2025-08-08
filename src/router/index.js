@@ -60,6 +60,22 @@ const router = createRouter({
                         name: "业务流测试",
                     }
                 },
+                {
+                    path: '/project/testTask',
+                    name: 'testTask',
+                    component: () => import('../views/Task/TaskView.vue'),
+                    meta: {
+                        name: "测试任务",
+                    }
+                },
+                {
+                    path: '/project/report/:id',
+                    name: 'report',
+                    component: () => import('../views/Report/ReportView.vue'),
+                    meta: {
+                        name: "测试报告",
+                    }
+                },
             ]
         }
     ],
