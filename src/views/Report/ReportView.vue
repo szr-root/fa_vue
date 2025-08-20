@@ -4,9 +4,8 @@
       <el-scrollbar height="calc(100vh - 65px)">
         <el-card v-if="state.record" body-style="padding-top:0">
           <div class="report_title">
-            <i>
-              测试报告
-            </i>
+            <i> 测试报告 </i>
+            <el-button type="primary" @click="sendReport">发送测试报告到飞书</el-button>
           </div>
           <el-descriptions :column="5" border direction="vertical">
             <el-descriptions-item label="执行时间">{{ formatDateTime(state.record.create_time) }}</el-descriptions-item>
@@ -158,6 +157,7 @@ import {useRoute} from 'vue-router'
 import http from '@/api/index.js'
 import Result from "@/components/Result.vue";
 import {SuccessFilled, Failed, CircleCloseFilled} from '@element-plus/icons-vue'
+import {ElMessage} from "element-plus";
 
 const route = useRoute()
 const state = reactive({
@@ -255,6 +255,19 @@ onUpdated(() => {
     show_chart2()
   }
 })
+
+async function sendReport() {
+  const response = await http.task.sendReportApi(route.params.id)
+  if (response.status === 200){
+    ElMessage(
+        {
+          message: '发送成功',
+          type: 'success',
+          duration: 3000
+        }
+    )
+  }
+}
 
 
 </script>

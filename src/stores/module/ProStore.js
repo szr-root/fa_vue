@@ -17,6 +17,8 @@ export const ProjectStore = defineStore('proStore', {
 			interfaces: [],
             //保存业务流
             flows: [],
+            // 保存测试任务
+            taskList:[],
         }
     },
     getters: {

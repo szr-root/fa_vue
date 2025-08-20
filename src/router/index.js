@@ -76,6 +76,22 @@ const router = createRouter({
                         name: "测试报告",
                     }
                 },
+                {
+                    path: '/project/records',
+                    name: 'records',
+                    component: () => import('../views/Record/recordsView.vue'),
+                    meta: {
+                        name: "测试记录",
+                    }
+                },
+                {
+                    path: '/project/crontab',
+                    name: 'crontab',
+                    component: () => import('../views/Crontab/CrontabView.vue'),
+                    meta: {
+                        name: "定时任务",
+                    }
+                },
             ]
         }
     ],
@@ -86,7 +102,7 @@ router.beforeEach(async (to, from, next) => {
     const ustore = UserStore()
     const pstore = ProjectStore()
     let isLogin = ustore.$state.isLogin
-    if (!isLogin && to.name != 'login') {
+    if (!isLogin && to.name !== 'login') {
         ElNotification({
             title: '未登录',
             message: '用户未登录，请先登录！',

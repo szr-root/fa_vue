@@ -43,13 +43,13 @@
 			iconImg: "/src/assets/icons/huo.png"
 		},
 		{
-			name: '其他4',
-			path: '/',
+			name: '测试记录',
+			path: '/project/records',
 			iconImg: "/src/assets/icons/mu.png"
 		},
 		{
-			name: '其他5',
-			path: '/other5',
+			name: '定时任务',
+			path: '/project/crontab',
 			iconImg: "/src/assets/icons/tu.png"
 		},
 	]

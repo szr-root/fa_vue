@@ -182,6 +182,7 @@ async function getTaskList() {
   const response = await http.task.getTaskListApi(proStore.pro.id)
   if (response.status === 200) {
     TaskList.value = response.data
+    proStore.taskList = TaskList.value
   }
 }
 

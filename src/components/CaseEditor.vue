@@ -132,6 +132,9 @@
             <div class="add_code">
               <el-button @click="addTearDownCodeMod('contain')" plain size="small">断言包含</el-button>
             </div>
+            <div class="add_code">
+              <el-button @click="addTearDownCodeMod('get_env')" plain size="small">获取变量</el-button>
+            </div>
           </el-scrollbar>
         </div>
       </div>
@@ -452,6 +455,8 @@ function addTearDownCodeMod(item) {
     caseData.teardown_script += '\n# 断言相等（大于（预期>实际），大于等于，小于，小于等于，不相等） \ntest.assertion("相等","预期结果","实际结果")';
   } else if (item === "contain") {
     caseData.teardown_script += '\n# 断言包含:预期结果中的内容在实际结果中是否存在 \ntest.assertion("包含","预期结果","实际结果")';
+  }else if(item === 'get_env'){
+    caseData.teardown_script += '\n self.get_env_variable(\'变量名\')'
   }
 }
 

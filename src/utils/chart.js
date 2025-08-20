@@ -318,4 +318,221 @@ export default {
         chart3.setOption(option);
         return chart3
     },
+
+    // 散点图
+    chart4(ele, datas) {
+        if (!ele || !datas || datas.length === 0) {
+            console.warn('Invalid element or data for chart4');
+            return;
+        }
+
+        const indices = {
+            id: 0,
+            env: 1,
+            task: 2,
+            create_time: 3,
+            all: 4,
+            success: 5,
+            fail: 6,
+            error: 7,
+            pass_rate: 8,
+            tester: 9,
+            status: 10
+        };
+
+        const schema = [
+            {name: 'id', index: 0},
+            {name: 'env', index: 1},
+            {name: 'task', index: 2},
+            {name: 'create_time', index: 3},
+            {name: 'all', index: 4},
+            {name: 'success', index: 5},
+            {name: 'fail', index: 6},
+            {name: 'error', index: 7},
+            {name: 'pass_rate', index: 8},
+            {name: 'tester', index: 9},
+            {name: 'status', index: 10}
+        ];
+
+        const fieldIndices = schema.reduce(function (obj, item) {
+            obj[item.name] = item.index;
+            return obj;
+        }, {});
+
+        // 用于存储不同类别的颜色映射
+        const categoryColors = {};
+        let myChart = null;
+        let data;
+        let currentXAxis = 'create_time';
+        let currentSymbolSize = 10; // 默认点大小
+
+        // 模拟数据
+        const originData = datas;
+
+        function normalizeData(originData) {
+            // 收集所有唯一类别以分配颜色
+            const categories = new Set();
+            originData.forEach(function (row) {
+                if (row.env) categories.add(row.env);
+                if (row.task) categories.add(row.task);
+            });
+
+            // 为每个唯一类别分配颜色
+            let categoryArray = Array.from(categories);
+            let hStep = Math.round(300 / (categoryArray.length - 1 || 1));
+            categoryArray.forEach((category, i) => {
+                categoryColors[category] = echarts.color.modifyHSL('#5A94DF', hStep * i);
+            });
+
+            // 转换数据格式
+            let processedData = originData.map(function (row) {
+                let processedRow = new Array(schema.length);
+                for (let i = 0; i < schema.length; i++) {
+                    processedRow[i] = row[schema[i].name];
+                }
+                return processedRow;
+            });
+
+            processedData.forEach(function (row) {
+                for (let index = 0; index < row.length; index++) {
+                    if (
+                        index !== indices.env &&
+                        index !== indices.task &&
+                        index !== indices.create_time
+                    ) {
+                        if (index === indices.pass_rate) {
+                            row[index] = parseFloat(row[index]) || 0;
+                        } else if (index !== indices.id && index !== indices.tester && index !== indices.status) {
+                            row[index] = parseFloat(row[index]) || 0;
+                        }
+                    }
+                }
+            });
+
+            return processedData;
+        }
+
+        function getOption(data, xAxisField = 'create_time') {
+            // 为category类型x轴准备数据
+            let uniqueXValues = [...new Set(data.map(item => item[fieldIndices[xAxisField]]))];
+
+            // 如果是时间字段，按时间排序，确保最新的在右边
+            if (xAxisField === 'create_time') {
+                uniqueXValues.sort((a, b) => new Date(a) - new Date(b));
+            }
+
+            return {
+                xAxis: {
+                    type: 'category',
+                    name: xAxisField,
+                    data: uniqueXValues,
+                    splitLine: {show: false}
+                },
+                yAxis: {
+                    type: 'value',
+                    name: '通过率(%)',
+                    splitLine: {show: false},
+                    axisLabel: {
+                        formatter: '{value}%'
+                    }
+                },
+                series: [
+                    {
+                        zlevel: 1,
+                        name: '测试结果',
+                        type: 'scatter',
+                        data: data.map(function (item, idx) {
+                            // 根据当前X轴字段选择颜色分类依据
+                            let category;
+                            if (xAxisField === 'env') {
+                                category = item[indices.task]; // X轴是环境时，按任务分类颜色
+                            } else {
+                                category = item[indices.task]; // 其他情况按任务分类颜色
+                            }
+
+                            return {
+                                value: [item[fieldIndices[xAxisField]], item[indices.pass_rate], category, idx],
+                                itemStyle: {
+                                    color: categoryColors[category] || '#5A94DF'
+                                }
+                            };
+                        }),
+                        animationThreshold: 5000,
+                        progressiveThreshold: 5000,
+                        symbolSize: currentSymbolSize // 使用当前设置的点大小
+                    }
+                ],
+                animationEasingUpdate: 'cubicInOut',
+                animationDurationUpdate: 2000,
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function (params) {
+                        const dataIndex = params.data.value[3];
+                        const rowData = data[dataIndex];
+                        if (!rowData) return '';
+                        return `${rowData[indices.task] || ''}<br/>
+            ${xAxisField}: ${params.data.value[0]}<br/>
+            环境: ${rowData[indices.env] || ''}<br/>
+            通过率: ${rowData[indices.pass_rate] || 0}%`;
+                    }
+                },
+                legend: {
+                    show: true,
+                    data: Object.keys(categoryColors),
+                    textStyle: {
+                        color: '#fff'
+                    }
+                }
+            };
+        }
+
+        // X轴切换函数
+        function changeXAxis(xAxisField) {
+            if (data && myChart) {
+                currentXAxis = xAxisField;
+                const option = getOption(data, xAxisField);
+                myChart.setOption(option, true); // true表示不合并选项，完全替换
+            }
+        }
+
+        // 点大小调整函数
+        function changeSymbolSize(size) {
+            if (myChart) {
+                currentSymbolSize = size;
+                const option = getOption(data, currentXAxis);
+                myChart.setOption(option, true);
+            }
+        }
+
+        try {
+            myChart = echarts.init(ele);
+
+            // 初始化数据
+            data = normalizeData(originData);
+            const option = getOption(data, currentXAxis);
+
+            myChart.setOption(option);
+
+            window.addEventListener('resize', () => {
+                if (myChart) {
+                    myChart.resize();
+                }
+            });
+
+            // 返回图表实例和控制函数，供外部调用
+            return {
+                chart: myChart,
+                changeXAxis: changeXAxis,
+                changeSymbolSize: changeSymbolSize, // 返回点大小调整函数
+                dispose: () => {
+                    if (myChart) {
+                        myChart.dispose();
+                    }
+                }
+            };
+        } catch (error) {
+            console.error('Error initializing chart:', error);
+            return null;
+        }
+    }
 }

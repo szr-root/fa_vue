@@ -261,7 +261,7 @@ async function runFlow() {
   if (pStore.env) {
     const params = {
       env: pStore.env,
-      scene: activeFlow.value.id
+      flow: activeFlow.value.id
     }
     console.log(params)
     const response = await http.run.runFlowApi(params)
