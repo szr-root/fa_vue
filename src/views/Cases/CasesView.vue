@@ -110,6 +110,7 @@ import {ref, reactive} from 'vue'
 
 const activaTab = ref('api1')
 const pstore = ProjectStore()
+pstore.getInterFaceList()
 // 页面选中的用例id
 let activeCase = ref()
 
