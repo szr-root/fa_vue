@@ -12,7 +12,7 @@
           </div>
 
           <!-- 环境列表 -->
-          <el-menu :default-active="EnvInfo.id+''">
+          <el-menu :default-active="pstore.env+''">
             <el-menu-item @click='selectEnv(item)' :index="item.id.toString()" v-for='item in pstore.envList'
                           :key="item.id">
               <img src="@/assets/icons/data.png" width="20" style="margin-right: 10px;">
@@ -94,9 +94,12 @@ const pstore = ProjectStore()
 onMounted(async () => {
   await pstore.getEnvList()
   envList.value = pstore.envList
-  // 组件上数据挂载完毕之后，设置一个默认选中的测试环境
+  // 组件上数据挂载完毕之后，选择当前env的节点
+
+
   if (envList.value.length > 0) {
-    selectEnv(envList.value[0])
+    const currentEnv = pstore.envList.find(item => item.id === pstore.env)
+    selectEnv(currentEnv)
   }
 })
 
