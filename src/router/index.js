@@ -92,6 +92,32 @@ const router = createRouter({
                         name: "定时任务",
                     }
                 },
+                {
+                    path: '/project/testtools',
+                    name: 'tools',
+                    component: () => import('../views/Tools/ToolsView.vue'),
+                    meta: {
+                        name: "测试工具",
+                    },
+                    children: [
+                        {
+                            path: 'decrypt_data',
+                            name: 'decrypt_data',
+                            component: () => import('../views/Tools/DataTools/DecryptView.vue'),
+                            meta: {
+                                name: "解密工具",
+                            }
+                        },
+                    ]
+                },
+                // {
+                //     path: '/project/testtools/decrypt_data',
+                //     name: 'decrypt_data',
+                //     component: () => import('../views/Tools/DataTools/DecryptView.vue'),
+                //     meta: {
+                //         name: "解密工具",
+                //     }
+                // },
             ]
         }
     ],

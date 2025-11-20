@@ -42,7 +42,7 @@
 				default: 'merbivore'
 			},
 			height: {
-				default: '200px'
+				default: '400px'
 			},
 			readOnly: {
 				default: false

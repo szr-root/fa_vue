@@ -2,7 +2,7 @@ import axios from "axios";
 
 //创建axios请求对象
 const request = axios.create({
-	baseURL:"http://127.0.0.1:8000",
+	baseURL: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000",
 	timeout:10000,
 	headers:{
 		'Content-Type':"application/json"
@@ -39,4 +39,3 @@ request.interceptors.response.use(function (response) {
   
 
 export default request
-
