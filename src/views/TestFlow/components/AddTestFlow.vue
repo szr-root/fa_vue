@@ -85,9 +85,26 @@ const emit = defineEmits(['refreshCase'])
 
 async function addToFlow() {
   const checkedCase = get_checked_nodes();
+  
+  // 检查已存在的用例ID，避免重复添加
+  const existingCaseIds = props.cases.map(caseItem => caseItem.icase.id);
+  const newCases = checkedCase.filter(item => !existingCaseIds.includes(item.id));
+  
+  if (newCases.length === 0) {
+    ElNotification({
+      type: 'warning',
+      title: '提示',
+      message: '选择的用例已存在于当前业务流中',
+      duration: 2000
+    });
+    return;
+  }
+  
   let orders = props.cases.length;
-  for (let i = 0; i < checkedCase.length; i++) {
-    const item = checkedCase[i];
+  let successCount = 0;
+  
+  for (let i = 0; i < newCases.length; i++) {
+    const item = newCases[i];
     orders += 1;
     const data = {
       icase: item.id,
@@ -96,13 +113,13 @@ async function addToFlow() {
     }
     const response = await http.flow.addFlowCaseApi(data)
     if (response.status === 201) {
+      successCount++;
       ElNotification({
         type: 'success',
         title: '添加成功',
         message: `用例-${item.title} 添加成功`,
         duration:2000
       })
-      emit('refreshCase')
     }else{
       ElNotification({
         type: 'error',
@@ -111,9 +128,12 @@ async function addToFlow() {
         duration:2000
       })
     }
-
   }
-
+  
+  // 如果有成功添加的用例，刷新列表
+  if (successCount > 0) {
+    emit('refreshCase')
+  }
 }
 </script>
 

@@ -3,6 +3,8 @@ import axios from "axios";
 //创建axios请求对象
 const request = axios.create({
 	baseURL: import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000",
+	// baseURL: import.meta.env.VITE_API_BASE_URL || "http://192.168.50.129:8888",
+
 	timeout:10000,
 	headers:{
 		'Content-Type':"application/json"

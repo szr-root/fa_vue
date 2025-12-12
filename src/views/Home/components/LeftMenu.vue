@@ -16,47 +16,56 @@
 <script setup>
 import {UserStore} from '@/stores/module/UserStore'
 
+// Import images directly so Vite can handle them properly
+import sunIcon from '@/assets/icons/sun.png'
+import haiIcon from '@/assets/icons/hai.png'
+import jinIcon from '@/assets/icons/jin.png'
+import earthIcon from '@/assets/icons/earth.png'
+import huoIcon from '@/assets/icons/huo.png'
+import muIcon from '@/assets/icons/mu.png'
+import tuIcon from '@/assets/icons/tu.png'
+
 const ustore = UserStore()
 const MenuList = [
   {
     name: '测试环境',
     path: '/project/env',
-    iconImg: "/src/assets/icons/sun.png"
+    iconImg: sunIcon
   },
   {
     name: '接口列表',
     path: '/project/interface',
-    iconImg: "/src/assets/icons/hai.png"
+    iconImg: haiIcon
   },
   {
     name: '用例列表',
     path: '/project/cases',
-    iconImg: "/src/assets/icons/jin.png"
+    iconImg: jinIcon
   },
   {
     name: '业务流测试',
     path: '/project/testflow',
-    iconImg: "/src/assets/icons/earth.png"
+    iconImg: earthIcon
   },
   {
     name: '测试任务',
     path: '/project/testTask',
-    iconImg: "/src/assets/icons/huo.png"
+    iconImg: huoIcon
   },
   {
     name: '测试记录',
     path: '/project/records',
-    iconImg: "/src/assets/icons/mu.png"
+    iconImg: muIcon
   },
   {
     name: '定时任务',
     path: '/project/crontab',
-    iconImg: "/src/assets/icons/tu.png"
+    iconImg: tuIcon
   },
   {
     name: '测试工具',
     path: '/project/testtools',
-    iconImg: "/src/assets/icons/tu.png"
+    iconImg: tuIcon
   },
 ]
 </script>
